@@ -3,8 +3,9 @@ from django.utils import timezone
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 from django.forms.models import model_to_dict
+from django.db.models import Q
 from rest_framework.parsers import JSONParser
-from .serializers import CommentSerializer
+from .serializers import CommentSerializer, SubmissionSerializer
 
 from parsing.parser import Parser
 from submission.models import Submission, Page, Comment
@@ -25,7 +26,7 @@ def submit(request):
 
     encoded_url = data['encoded_url']
     url = urllib.parse.unquote(encoded_url)
-    group_members = {"group": data['group']}
+    group_members = data['group']
     group_name = data['group_name']
     assignment_id = data['assignment_id']
 
@@ -71,6 +72,17 @@ def submit(request):
     res = {"message": message}
     status_code = 201
     return JsonResponse(res, status=status_code)
+
+def update_submission(request):
+    id = request.GET['id']
+    submission = Submission.objects.get(pk=id)
+    data = JSONParser().parse(request)
+    #pprint.pprint(data)
+    serializer = SubmissionSerializer(submission, data=data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return JsonResponse(serializer.data)
+    return JsonResponse(serializer.errors, status=400)
 
 def grade(request):
     message = None
@@ -125,15 +137,21 @@ def get_submission(request):
     group_name = request.GET['group_name']
     assignment_name = request.GET['assignment_name']
     semester = request.GET['semester']
-    submission = Submission.objects.filter(rubric__assignment_name=assignment_name) \
-                                   .filter(group_name=group_name) \
-                                   .filter(semester=semester) \
-                                   .latest('upload_time')
-    dict_obj = model_to_dict( submission )
-    content = [json.dumps(dict_obj, default=str)]
 
-    res = {"content": content}
-    return JsonResponse(res)
+    submission = Submission.objects.filter(Q(rubric__assignment_name=assignment_name) &
+                                           Q(group_name=group_name) &
+                                           Q(semester=semester))
+    if submission.count() > 0:
+        dict_obj = model_to_dict( submission.latest('upload_time') )
+        content = [json.dumps(dict_obj, default=str)]                                      
+        res = {"content": content}
+        return JsonResponse(res)
+    elif submission.count() == 0:
+        status_code = 400
+        message = 'Invalid Request'
+        explanation = "No submission exists with this URL, name, and semester."
+        res = {"message": message, "explanation": explanation}
+        return JsonResponse(res, status=status_code)
 
 def comment(request):
     message = None
@@ -183,7 +201,7 @@ def comment(request):
         c.save()
 
         message = "Comment created successfully."
-        res = {"message": message}
+        res = {"message": message, "content": {"id": c.id}}
         status_code = 201
         return JsonResponse(res, status=status_code)
 

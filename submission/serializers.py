@@ -1,6 +1,20 @@
 from rest_framework import serializers
-from .models import Comment
+from .models import Submission, Page, Comment
 
+class SubmissionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Submission
+        fields = '__all__'
+
+    def update(self, instance, validated_data):
+        instance.students = validated_data.get('students', instance.students)
+        instance.template = validated_data.get('template', instance.template)
+        instance.submitted_url = validated_data.get('url', instance.submitted_url)
+        instance.group_name = validated_data.get('group_name', instance.group_name)
+        instance.semester = validated_data.get('semester', instance.semester)
+        instance.upload_time = validated_data.get('upload_time', instance.upload_time)
+        instance.save()
+        return instance
 
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
