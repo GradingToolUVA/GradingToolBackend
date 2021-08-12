@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +26,7 @@ SECRET_KEY = '2itign44v9pbiniz9-vx*5236%&jwymcl&twgs+x^64jir_9de'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [] #['testserver']
+ALLOWED_HOSTS = ['testserver', 'gradingtoolbackend.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
@@ -83,8 +84,17 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        #Heroku Postgres
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'd9ag71ga7r66jp',
+        'HOST': 'ec2-52-1-20-236.compute-1.amazonaws.com',
+        'PORT': 5432,
+        'USER': 'dagakjirvqcazu',
+        'PASSWORD': '10849304017dc03bfd4dc3083e51ce1ad3b8f09b4c640cf86a6a513b85afc222',
+
+        #Local
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -126,6 +136,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 CORS_ORIGIN_WHITELIST = [
      'http://localhost:3000',
