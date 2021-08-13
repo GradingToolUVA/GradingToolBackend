@@ -13,6 +13,7 @@ class SubmissionSerializer(serializers.ModelSerializer):
         instance.group_name = validated_data.get('group_name', instance.group_name)
         instance.semester = validated_data.get('semester', instance.semester)
         instance.upload_time = validated_data.get('upload_time', instance.upload_time)
+        instance.export_id = validated_data.get('export_id', instance.export_id)
         instance.save()
         return instance
 

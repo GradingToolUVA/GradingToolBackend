@@ -11,6 +11,7 @@ class Submission(models.Model):
     group_name = models.CharField(max_length=128)
     semester = models.CharField(max_length=128)
     upload_time = models.DateTimeField()
+    export_id = models.CharField(max_length=128)
 
 class Page(models.Model):
     url = models.CharField(max_length=256)

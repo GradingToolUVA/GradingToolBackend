@@ -35,6 +35,7 @@ def submit(request):
 
     upload_time = timezone.now()
     semester = data['semester']
+    export_id = data['export_id']
 
     # if(upload_time.month < 7):
     #     semester = "s" + upload_time.date.year
@@ -48,7 +49,8 @@ def submit(request):
                    submitted_url=url,
                    group_name=group_name,
                    semester=semester,
-                   upload_time=upload_time)
+                   upload_time=upload_time,
+                   export_id=export_id)
     s.save()
 
     p = Parser()
@@ -134,13 +136,18 @@ def grade(request):
     return JsonResponse(res)
 
 def get_submission(request):
-    group_name = request.GET['group_name']
-    assignment_name = request.GET['assignment_name']
-    semester = request.GET['semester']
+    if 'export_id' in request.GET:
+        export_id = request.GET['export_id']
+        submission = Submission.objects.filter(export_id=export_id)
 
-    submission = Submission.objects.filter(Q(rubric__assignment_name=assignment_name) &
-                                           Q(group_name=group_name) &
-                                           Q(semester=semester))
+    else : #then use the group name, assn name, and semester to get the submission
+        group_name = request.GET['group_name']
+        assignment_name = request.GET['assignment_name']
+        semester = request.GET['semester']
+
+        submission = Submission.objects.filter(Q(rubric__assignment_name=assignment_name) &
+                                              Q(group_name=group_name) &
+                                              Q(semester=semester))
     if submission.count() > 0:
         dict_obj = model_to_dict( submission.latest('upload_time') )
         content = [json.dumps(dict_obj, default=str)]                                      
@@ -149,7 +156,7 @@ def get_submission(request):
     elif submission.count() == 0:
         status_code = 400
         message = 'Invalid Request'
-        explanation = "No submission exists with this URL, name, and semester."
+        explanation = "No submission exists with this URL, name, and semester (or export ID)."
         res = {"message": message, "explanation": explanation}
         return JsonResponse(res, status=status_code)
 
@@ -238,14 +245,16 @@ def get_comments(request):
     return JsonResponse(res)
 
 def get_submission_pages(request): #gives all pages, and the landing page as well
-    group_name = request.GET['group_name']
-    assignment_name = request.GET['assignment_name']
-    semester = request.GET['semester']
-    submission = Submission.objects.filter(rubric__assignment_name=assignment_name) \
-                                   .filter(group_name=group_name) \
-                                   .filter(semester=semester) \
-                                   .latest('upload_time') #get their most recent submission
-    
+    # group_name = request.GET['group_name']
+    # assignment_name = request.GET['assignment_name']
+    # semester = request.GET['semester']
+    # submission = Submission.objects.filter(rubric__assignment_name=assignment_name) \
+    #                                .filter(group_name=group_name) \
+    #                                .filter(semester=semester) \
+    #                                .latest('upload_time') #get their most recent submission
+    submission_id = request.GET['id']
+    submission = Submission.objects.filter(id=submission_id) \
+                                   .latest('upload_time')
     # for s in submission:
     pages = Page.objects.filter(submission__id=submission.id) 
                       #  .filter(url__icontains=search_term)
