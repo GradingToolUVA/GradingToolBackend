@@ -57,18 +57,18 @@ def submit(request):
     linked_pages = p.parse_all(url)
     current_page = p.parse(url)
 
+    current_pg = Page(url=url,
+              submission=s,
+              name="Landing Page",
+              html=current_page)
+    current_pg.save()
+
     for page in linked_pages:
         pg = Page(url=page['url'],
                  submission=s,
                  name=page['name'],
                  html=page['html'])
         pg.save()
-
-    current_pg = Page(url=url,
-              submission=s,
-              name="Landing Page",
-              html=current_page)
-    current_pg.save()
 
     message = "Submission created successfully."
     res = {"message": message}
