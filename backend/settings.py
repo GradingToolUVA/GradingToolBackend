@@ -146,3 +146,5 @@ CORS_ORIGIN_WHITELIST = [
 ]
 CORS_ALLOW_CREDENTIALS = True
 
+SESSION_COOKIE_DOMAIN = 'priceless-lamport-8e5f2d.netlify.app'
+
