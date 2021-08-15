@@ -56,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'gradetool.middleware.CsrfHeaderMiddleware'
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -145,6 +146,7 @@ CORS_ORIGIN_WHITELIST = [
      'https://priceless-lamport-8e5f2d.netlify.app',
 ]
 CORS_ALLOW_CREDENTIALS = True
+CORS_EXPOSE_HEADERS = ["X-CSRFTOKEN"]
 
 CSRF_TRUSTED_ORIGINS = ['priceless-lamport-8e5f2d.netlify.app'] # For secure HTTPS site
 
