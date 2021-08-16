@@ -150,8 +150,6 @@ CORS_EXPOSE_HEADERS = ["X-CSRFTOKEN"]
 
 CSRF_TRUSTED_ORIGINS = ['priceless-lamport-8e5f2d.netlify.app'] # For secure HTTPS site
 
-# CSRF_COOKIE_DOMAIN = 'priceless-lamport-8e5f2d.netlify.app'
-# SESSION_COOKIE_DOMAIN = 'priceless-lamport-8e5f2d.netlify.app'
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SAMESITE = 'None'

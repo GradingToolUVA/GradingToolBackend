@@ -15,9 +15,7 @@ import json
 # TODO: Catch key errors
 def upload(request):
     data = json.loads(request.body.decode('utf-8'))
-    points = data['points']
     template = data['template']
-    criteria = []
     year = data['year']
     month = data['month']
     day = data['day']
@@ -26,8 +24,6 @@ def upload(request):
     name = data['name']
 
     r = Rubric(template=template,
-               points=points,
-               criteria=criteria,
                deadline=datetime.datetime(year, month, day, hour, minute),
                upload_time=timezone.now(),
                assignment_name=name)
