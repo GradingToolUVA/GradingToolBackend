@@ -35,7 +35,7 @@ def upload(request):
 def get_rubric_by_name(request):
     assignment_name = request.GET['assignment_name']
     rubric = Rubric.objects.filter(assignment_name=assignment_name)
-    rubric = rubric[0]
+    rubric = rubric.latest('upload_time')
 
     dict_obj = model_to_dict( rubric )
     rubricJSON = json.dumps(dict_obj, default=str)

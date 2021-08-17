@@ -12,6 +12,7 @@ class Submission(models.Model):
     semester = models.CharField(max_length=128)
     upload_time = models.DateTimeField()
     export_id = models.CharField(max_length=128)
+    matched = models.BooleanField(default=False)
 
 class Page(models.Model):
     url = models.CharField(max_length=256)
