@@ -2,11 +2,8 @@ env/
 db.sqlite3
 __pycache__
 *.pyc
-/migrations
 .vs/
 .git/
-
-migrations
 
 andrewvenv
 constants.py
