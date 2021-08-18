@@ -18,6 +18,18 @@ class SubmissionSerializer(serializers.ModelSerializer):
         instance.save()
         return instance
 
+class PageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Page
+        fields = '__all__'
+
+    def update(self, instance, validated_data):
+        instance.url = validated_data.get('url', instance.url)
+        instance.name = validated_data.get('name', instance.name)
+        instance.html = validated_data.get('html', instance.html)
+        instance.save()
+        return instance
+
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment

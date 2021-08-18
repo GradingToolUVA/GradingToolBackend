@@ -5,7 +5,7 @@ from django.http import JsonResponse
 from django.forms.models import model_to_dict
 from django.db.models import Q
 from rest_framework.parsers import JSONParser
-from .serializers import CommentSerializer, SubmissionSerializer
+from .serializers import CommentSerializer, PageSerializer, SubmissionSerializer
 
 from parsing.parser import Parser
 from submission.models import Submission, Page, Comment
@@ -274,6 +274,22 @@ def get_submission_pages(request): #gives all pages, and the landing page as wel
     #     print('-'*10)
 
     return JsonResponse(res)
+
+def page(request):
+    message = None
+    explanation = None
+    status_code = 500
+
+    if request.method == 'PATCH':
+        id = request.GET['id']
+        page = Page.objects.get(pk=id)
+        data = JSONParser().parse(request)
+        #pprint.pprint(data)
+        serializer = PageSerializer(page, data=data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data)
+        return JsonResponse(serializer.errors, status=400)
 
 def test(request):
     return
