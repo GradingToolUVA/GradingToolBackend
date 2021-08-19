@@ -36,6 +36,7 @@ def submit(request):
     upload_time = timezone.now()
     semester = data['semester']
     export_id = data['export_id']
+    matched = data['matched']
 
     # if(upload_time.month < 7):
     #     semester = "s" + upload_time.date.year
@@ -50,7 +51,8 @@ def submit(request):
                    group_name=group_name,
                    semester=semester,
                    upload_time=upload_time,
-                   export_id=export_id)
+                   export_id=export_id,
+                   matched=matched)
     s.save()
 
     p = Parser()
