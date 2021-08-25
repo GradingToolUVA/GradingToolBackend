@@ -13,6 +13,7 @@ class Submission(models.Model):
     upload_time = models.DateTimeField()
     export_id = models.CharField(max_length=128)
     matched = models.BooleanField(default=False)
+    general_feedback = models.JSONField()
 
 class Page(models.Model):
     url = models.CharField(max_length=256)

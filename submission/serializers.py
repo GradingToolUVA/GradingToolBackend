@@ -15,6 +15,7 @@ class SubmissionSerializer(serializers.ModelSerializer):
         instance.upload_time = validated_data.get('upload_time', instance.upload_time)
         instance.export_id = validated_data.get('export_id', instance.export_id)
         instance.matched = validated_data.get('matched', instance.matched)
+        instance.general_feedback = validated_data.get('general_feedback', instance.general_feedback)
         instance.save()
         return instance
 
