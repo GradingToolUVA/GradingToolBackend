@@ -11,5 +11,6 @@ urlpatterns = [
     path('page', views.page, name='page'),
     path('comment', views.comment, name='comment'),
     path('get_comments', views.get_comments, name='get_comments'),
+    path('refresh', views.refresh, name='refresh'),
     path('test', views.test, name='test')
 ]

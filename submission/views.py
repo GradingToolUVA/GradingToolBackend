@@ -293,5 +293,33 @@ def page(request):
             return JsonResponse(serializer.data)
         return JsonResponse(serializer.errors, status=400)
 
+def refresh(request):
+    message = None
+    explanation = None
+    status_code = 500
+    
+    data = json.loads(request.body.decode('utf-8'))
+
+    encoded_url = data['encoded_url']
+    url = urllib.parse.unquote(encoded_url)
+
+    try:
+        page = Page.objects.get(url=url)
+        if page.name != "Landing Page" and page.url[0:4] != "http":
+            url = "https://sites.google.com" + url
+    except Page.DoesNotExist:
+        res = {"message": "Page not found"}
+        status_code = 404
+        return JsonResponse(res, status=status_code)
+
+    parser = Parser()
+    page_html = parser.parse(url)
+    page.html = page_html
+    page.save() 
+
+    res = {"message": "Page refreshed"}
+    status_code = 204
+    return JsonResponse(res, status=status_code)
+
 def test(request):
     return
