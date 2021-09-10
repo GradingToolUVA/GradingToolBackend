@@ -52,7 +52,8 @@ def submit(request):
                    semester=semester,
                    upload_time=upload_time,
                    export_id=export_id,
-                   matched=matched)
+                   matched=matched,
+                   general_feedback=[])
     s.save()
 
     p = Parser()
