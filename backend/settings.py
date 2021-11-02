@@ -26,7 +26,8 @@ SECRET_KEY = '2itign44v9pbiniz9-vx*5236%&jwymcl&twgs+x^64jir_9de'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['testserver', 'gradingtoolbackend.herokuapp.com', '127.0.0.1', 'localhost', 'priceless-lamport-8e5f2d.netlify.app']
+ALLOWED_HOSTS = ['testserver', 'gradingtoolbackend.herokuapp.com',
+                 '127.0.0.1', 'localhost', 'priceless-lamport-8e5f2d.netlify.app']
 
 
 # Application definition
@@ -44,7 +45,8 @@ INSTALLED_APPS = [
     'gradetool',
     'rubric',
     'parsing',
-    'submission'
+    'submission',
+    'accounts'
 ]
 
 MIDDLEWARE = [
@@ -85,7 +87,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        #Heroku Postgres
+        # Heroku Postgres
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'd9ag71ga7r66jp',
         'HOST': 'ec2-52-1-20-236.compute-1.amazonaws.com',
@@ -93,7 +95,7 @@ DATABASES = {
         'USER': 'dagakjirvqcazu',
         'PASSWORD': '10849304017dc03bfd4dc3083e51ce1ad3b8f09b4c640cf86a6a513b85afc222',
 
-        #Local
+        # Local
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': BASE_DIR / 'db.sqlite3',
     }
@@ -140,18 +142,20 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 CORS_ORIGIN_WHITELIST = [
-     'http://localhost:3000',
-     'http://127.0.0.1:3000',
-     'http://127.0.0.1:3001',
-     'https://priceless-lamport-8e5f2d.netlify.app',
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'http://127.0.0.1:3001',
+    'https://priceless-lamport-8e5f2d.netlify.app',
 ]
 CORS_ALLOW_CREDENTIALS = True
 CORS_EXPOSE_HEADERS = ["X-CSRFTOKEN"]
 
-CSRF_TRUSTED_ORIGINS = ['priceless-lamport-8e5f2d.netlify.app'] # For secure HTTPS site
+# For secure HTTPS site
+CSRF_TRUSTED_ORIGINS = ['priceless-lamport-8e5f2d.netlify.app']
 
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SAMESITE = 'None'
 SESSION_COOKIE_SAMESITE = 'None'
 
+AUTH_USER_MODEL = 'accounts.User'
