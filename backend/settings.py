@@ -46,8 +46,14 @@ INSTALLED_APPS = [
     'rubric',
     'parsing',
     'submission',
-    'accounts'
+    'accounts',
+    'bootstrap5',
+    'knox'
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication',)
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -88,16 +94,16 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         # Heroku Postgres
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'd9ag71ga7r66jp',
-        'HOST': 'ec2-52-1-20-236.compute-1.amazonaws.com',
-        'PORT': 5432,
-        'USER': 'dagakjirvqcazu',
-        'PASSWORD': '10849304017dc03bfd4dc3083e51ce1ad3b8f09b4c640cf86a6a513b85afc222',
+        # 'ENGINE': 'django.db.backends.postgresql',
+        # 'NAME': 'd9ag71ga7r66jp',
+        # 'HOST': 'ec2-52-1-20-236.compute-1.amazonaws.com',
+        # 'PORT': 5432,
+        # 'USER': 'dagakjirvqcazu',
+        # 'PASSWORD': '10849304017dc03bfd4dc3083e51ce1ad3b8f09b4c640cf86a6a513b85afc222',
 
         # Local
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -153,9 +159,9 @@ CORS_EXPOSE_HEADERS = ["X-CSRFTOKEN"]
 # For secure HTTPS site
 CSRF_TRUSTED_ORIGINS = ['priceless-lamport-8e5f2d.netlify.app']
 
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SAMESITE = 'None'
-SESSION_COOKIE_SAMESITE = 'None'
+# CSRF_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SAMESITE = 'None'
+# SESSION_COOKIE_SAMESITE = 'None'
 
-AUTH_USER_MODEL = 'accounts.User'
+#AUTH_USER_MODEL = 'accounts.User'

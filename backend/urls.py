@@ -30,5 +30,6 @@ urlpatterns = [
     path('gradetool/', include('gradetool.urls')),
     path('rubric/', include('rubric.urls')),
     path('parsing/', include("parsing.urls")),
-    path('submission/', include("submission.urls"))
+    path('submission/', include("submission.urls")),
+    path('accounts/', include("accounts.urls"))
 ]
