@@ -47,7 +47,6 @@ INSTALLED_APPS = [
     'parsing',
     'submission',
     'accounts',
-    'bootstrap5',
     'knox'
 ]
 
